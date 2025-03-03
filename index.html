@@ -1,157 +1,49 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CyberStormCTF</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #000;
-      font-family: 'Courier New', Courier, monospace;
-      color: #00ff00;
-    }
-    /* Styl pro 3D plátno */
-    #bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
-    /* Kontejner pro obsah, který bude nad 3D pozadím */
-    .content {
-      position: relative;
-      z-index: 1;
-      padding: 20px;
-    }
-    header, nav, .container, footer {
-      background: rgba(0, 0, 0, 0.8);
-      margin: 10px auto;
-      padding: 10px;
-      border: 1px solid #00ff00;
-    }
-    header {
-      text-align: center;
-      padding: 20px;
-      border-bottom: 1px solid #00ff00;
-    }
-    nav {
-      text-align: center;
-      margin: 20px 0;
-    }
-    nav a {
-      color: #00ff00;
-      text-decoration: none;
-      margin: 0 15px;
-      transition: color 0.3s;
-    }
-    nav a:hover {
-      color: #fff;
-    }
-    .blink {
-      animation: blink 1s step-start infinite;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      border-top: 1px solid #00ff00;
-      margin-top: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Soutěž</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #121212;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            width: 80%;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-  <!-- 3D pozadí -->
-  <canvas id="bgCanvas"></canvas>
-  
-  <!-- Obsah stránky -->
-  <div class="content">
-    <header>
-      <h1>CyberStormCTF</h1>
-      <p class="blink">made is ctirad and filip :D</p>
-    </header>
-    <nav>
-      <a href="#challenges">Challenges</a>
-      <a href="#scoreboard">Scoreboard</a>
-      <a href="#contact">Kontakt</a>
-    </nav>
     <div class="container">
-      <section id="challenges">
-        <h2>Challenges</h2>
-        <div class="challenge">
-          <h3>Challenge 1: Záhada</h3>
-          <p>Vyřeš šifru a odhal tajemství.</p>
-        </div>
-        <div class="challenge">
-          <h3>Challenge 2: Hack the Planet</h3>
-          <p>Překonej zabezpečení systému a získej flagu.</p>
-        </div>
-      </section>
-      <section id="scoreboard">
-        <h2>Scoreboard</h2>
-        <div class="scoreboard">
-          <p>1. Team Alpha - 1500 bodů</p>
-          <p>2. Team Bravo - 1200 bodů</p>
-          <p>3. Team Charlie - 900 bodů</p>
-        </div>
-      </section>
-      <section id="contact">
-        <h2>Kontakt</h2>
-        <p>Ctirad Email: Ctirad122@gmail.com</p>
-        <p>filip Email: i dont know:D<p>
-      </section>
+        <h1>Vítejte v CTF soutěži!</h1>
+        <p>Zadejte svůj flag:</p>
+        <input type="text" id="flagInput" placeholder="Zadejte flag">
+        <button onclick="checkFlag()">Ověřit</button>
+        <p id="result"></p>
     </div>
-    <footer>
-      <p>&copy; 2025 CTF HECERSKÝ</p>
-    </footer>
-  </div>
-
-  <!-- Three.js knihovna z CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
-    // Získání elementu plátna
-    const canvas = document.getElementById('bgCanvas');
-    // Inicializace rendereru s průhledným pozadím
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
     
-    // Vytvoření scény a kamery
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75, 
-      window.innerWidth / window.innerHeight, 
-      0.1, 
-      1000
-    );
-    camera.position.z = 5;
-    
-    // Vytvoření drátového krychlového objektu
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-    
-    // Funkce pro animaci scény
-    function animate() {
-      requestAnimationFrame(animate);
-      
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      
-      renderer.render(scene, camera);
-    }
-    animate();
-    
-    // Přizpůsobení velikosti plátna při změně velikosti okna
-    window.addEventListener('resize', () => {
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-    });
-  </script>
+    <script>
+        function checkFlag() {
+            var flag = document.getElementById("flagInput").value;
+            if (flag === atob("Q3liZXJ7NjY0MjU3OH0=")) {
+                document.getElementById("result").innerText = "Gratulujeme! Správný flag!";
+            } else {
+                document.getElementById("result").innerText = "Špatný flag, zkuste to znovu.";
+            }
+        }
+    </script>
 </body>
 </html>
